@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	  <link rel="stylesheet" href="https://submissionstrategies.com/css/r2.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+	 <link rel="stylesheet" href="https://submissionstrategies.com/css/L.Control.Layers.Tree.css"/>
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier-Leaflet/0.2.6/oms.min.js"></script>
+	<style>
+		#map {
+			position: relative;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			width: 80%;
+			height: 600px;
+		}
+	</style>
+	<meta charset="UTF-8">
+	<meta name="title" content="Climate Change and Climate Anxieties in the Papal Letters">
+	<meta name="description" content="A spatial visualization of climate events described in papal letters relating to Great Britain and Ireland">
+	<meta name="author" content="Margaret K. Smith">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Climate Change and Climate Anxieties in the Papal Letters</title>
+</head>
+<body>
+	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+	<script src='https://submissionstrategies.com/js/L.Control.Layers.Tree.js'></script>
+	<h1>Climate Events and Climate Anxieties in Late Medieval Britain and Ireland</h1>
+	<h2>Mapping Climate Events in the Papal Letters</h2>
+	<h3><i>Margaret K. Smith</i></h3>
+	<h3><i>Updated January 3, 2023</i></h3>
+	<p>This nascent project maps climate events and climate anxieties described in papal letters during the later Middle Ages. In contrast to the Irish annals, which recount one-off, significant events with an eye toward posterity, the papal letters reflect concerns about changing climate patterns and the interpretation of climate events by local authorities. They thus provide clearer insights into the entanglements between climate impacts (both climate change and its attendant anxieties), local politics, and church organization.</p>
+
+<p>The map currently contains data from Volumes 12 and 13 of the Calendar of Entries in the Papal Registers Relating to Great Britain and Ireland, ed. J.A. Twemlow (London: Stationery Office, 1955), and data from earlier volumes is forthcoming. Each popup contains the date of the letter, the location of the event, the type of event (most often floods), its impact, and a reference to the entry in the Twemlow calendar. Places are georeferenced through a combination of primary sources, placenames, and archaeological sites.</p>
+
+<p>This map is intended to serve as a companion to an article in preparation, “Climate Change, Local Authority, and the Parish in Late Medieval Britain and Ireland.” However, I hope that it might serve as a useful resource for other researchers interested in the environment, economy, and politics of late medieval Ireland.</p>
+	<script src='https://submissionstrategies.com/js/leaflet.polylineoffset.js'></script>
+<div style="margin: auto" id = "map"></div>
+	<script>
+		var map = L.map('map', {
+			center: [54.20419420887825, -4.557068809702086],
+			zoom: 6
+		});
+
+		L.tileLayer('https://api.maptiler.com/maps/topo/{z}/{x}/{y}.png?key=4CI3hvSGGwgJXODif6KH', {attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+		}).addTo(map);
+
+		omnivore.csv('https://raw.githubusercontent.com/msmith0913/climate-anxieties/main/letterencoding.csv')
+		.on('ready', function(layer) {
+			this.eachLayer(function(marker) {
+				marker.bindPopup("<b>Date:</b> " + marker.toGeoJSON().properties.Date + "</br><b>Location: </b>" + marker.toGeoJSON().properties.StandLocation + "</br><b>Event: </b>" + marker.toGeoJSON().properties.ClimateEvent + "</br><b>Impact: </b>" + marker.toGeoJSON().properties.Impact + "</br><b>Reference: </b>" + marker.toGeoJSON().properties.Reference);
+		});
+	})
+	.addTo(map);
+
+	</script>
+	<br/>
+<hr>
+<h2>Get the data</h2>
+<br/>
+	<iframe title="Climate Events in the Papal Letters" aria-label="Table" id="datawrapper-chart-zgw5W" src="https://datawrapper.dwcdn.net/zgw5W/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="2698"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>
+	<footer>
+		<?php include "./footer.html" ?>
+</footer>
+</body>
